@@ -3,7 +3,8 @@ title: "MarketBasketAnalysisWith_R"
 output: pdf_document
 date: "`r Sys.Date()`"
 ---
-
+a.Load the required libraries: rules and arulesViz.
+b.Load the dataset named " Income" (either provided in or from an external source).
 ```{r}
 #load the required libraries
 library(arules)
@@ -12,14 +13,20 @@ library(arulesViz)
 data("Income")
 #inspect the data
 str(Income)
+
+```
+c. Dataset in transaction for Market Basket Analysis.
+```{r}
+library(arules)
+library(arulesViz)
 inspect(Income)
 ```
-
+d.Use the apriori algorithm to mine association rules
 ```{r}
 #Use the apriori algorithm to mine association rules
 income_rules <- apriori(Income, parameter = list(support = 0.5, confidence = 0.5))
 ```
-
+e. Fine-tune the parameters such as support and confidence levels to obtain meaningful rules.
 ```{r}
 # support 0.1 and confidence0.8 
 #At least 10% of the transactions should contain the items in the rule
@@ -28,7 +35,8 @@ income_rules <- apriori(Income, parameter = list(support = 0.5, confidence = 0.5
 income_rules <- apriori(Income, parameter = list(support = 0.1, confidence = 0.8))
 
 ```
-Explaining the parameters: 
+f. Inspect and analyze the generated rules.
+```{r}
 ```{r}
 #Inspect and analyze the generated rules.
 inspect(income_rules)
@@ -36,7 +44,7 @@ inspect(income_rules)
 
 ```
 
-
+g. Sort the rules based on support, confidence, and lift.
 
 ```{r}
 #Sort the rules based on support, confidence, and lift
@@ -57,13 +65,13 @@ inspect(income_rules)
 income_rules <- sort(income_rules, by = "support")
 inspect(income_rules)
 ```
-
+h. Identify and remove redundant rules.
 ```{r}
 #Identify and remove redundant rules.
 income_rules <- income_rules[!duplicated(income_rules)]
 ```
 
-
+i. Visualize the association rules using plot function and ensure interactivity.
 ```{r}
 #Visualize the association rules using plot function and ensure interactivity
 plot(income_rules, method = "graph", control = list(type = "items"))
