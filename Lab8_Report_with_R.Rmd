@@ -8,68 +8,64 @@ date: "`r Sys.Date()`"
 #load the required libraries
 library(arules)
 library(arulesViz)
-
-#Load the dataset Groceries
-data(Groceries)
-str(Groceries)
-inspect(Groceries)
-
-
+#load the data
+data("Income")
+#inspect the data
+str(Income)
+inspect(Income)
 ```
-
-```{r}
-gr_rules <- apriori(Groceries, parameter = list(support = .01, confidence = .8))
-```
-
-```{r}
-
-```
-
-```{r}
-
-
-```
-
-```{r}
-#Convert the dataset into a transaction dataset 
-
-```
-
-
 
 ```{r}
 #Use the apriori algorithm to mine association rules
-
-
+income_rules <- apriori(Income, parameter = list(support = 0.5, confidence = 0.5))
 ```
-
 
 ```{r}
-#Fine-tune the parameters such as support and confidence levels to obtain
-#meaningful rules
+# support 0.1 and confidence0.8 
+#At least 10% of the transactions should contain the items in the rule
+#At least 80% of the transactions containing the antecedent should also contain the consequent
 
+income_rules <- apriori(Income, parameter = list(support = 0.1, confidence = 0.8))
 
 ```
-
-
+Explaining the parameters: 
 ```{r}
 #Inspect and analyze the generated rules.
+inspect(income_rules)
 
 
 ```
+
 
 
 ```{r}
 #Sort the rules based on support, confidence, and lift
+income_rules <- sort(income_rules, by = "lift")
+inspect(income_rules)
+
+
 ```
 
+```{r}
+#sort the rules based on confidence
+income_rules <- sort(income_rules, by = "confidence")
+inspect(income_rules)
+```
+
+```{r}
+#sort the rules based on support
+income_rules <- sort(income_rules, by = "support")
+inspect(income_rules)
+```
 
 ```{r}
 #Identify and remove redundant rules.
+income_rules <- income_rules[!duplicated(income_rules)]
 ```
 
 
 ```{r}
-#Visualize the association rules using plot function and ensure interactivity.
+#Visualize the association rules using plot function and ensure interactivity
+plot(income_rules, method = "graph", control = list(type = "items"))
 ```
 
